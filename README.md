@@ -13,25 +13,34 @@ Using:
     ```
     py -3.9 -m venv venv
     ```
+    * Activate virtual environment
+    ```
+    ./venv/Scripts/activate
+    ```
+    
+2. Install Django
+    ```
+    pip install django
+    ```
     * [Check Python version that you can use with Django](https://docs.djangoproject.com/en/3.1/faq/install/)  
 
-2. Go into project folder and start Django project
+3. Go into project folder and start Django project
     ```
     django-admin startproject project_name .
     ```
     * [startproject](https://docs.djangoproject.com/en/3.1/ref/django-admin/#startproject) (Django Docs)
 
-3. Create Django app
+4. Create Django app
     ```
     py manage.py startapp app_name
     ```
     * [startapp](https://docs.djangoproject.com/en/3.1/ref/django-admin/#startapp) (Django Docs)
 
-4. Set up database
+5. Set up database
     * If using SQLite, no additional configuration or setup is required
     * [Databases](https://docs.djangoproject.com/en/3.1/ref/databases/) (Django Docs)
 
-5. Register application
+6. Register application
     * Open settings.py and add application to `INSTALLED_APPS`
     ```
     INSTALLED_APPS = [
@@ -46,7 +55,7 @@ Using:
     ```
     * [Applications](https://docs.djangoproject.com/en/3.1/ref/applications/) (Django Docs)
 
-6. Change time zone
+7. Change time zone
     * In settings.py update `TIME_ZONE` to your time zone
     ```
     TIME_ZONE = 'America/Los_Angeles'
@@ -65,7 +74,16 @@ Using:
     * [path](https://docs.djangoproject.com/en/3.1/ref/urls/#path) (Django Docs)
     * [include](https://docs.djangoproject.com/en/3.1/ref/urls/#include) (Django Docs)
 
-2. Enable the serving of static files by adding the following to urls.py
+2. Redirect the root URL of site
+    ```
+    from django.views.generic import RedirectView
+
+    urlpatterns += [
+    path('', RedirectView.as_view(url='app_name/', permanent=True)),
+    ]
+    ```
+
+3. Enable the serving of static files by adding the following to urls.py
     ```
     # Add url mapping to serve static files during development
     from django.conf import settings
@@ -75,7 +93,7 @@ Using:
     ```
     * [Serving static files during development](https://docs.djangoproject.com/en/3.1/howto/static-files/#serving-static-files-during-development) (Django Docs)
 
-3. Create a file in the application folder called urls.py (app_name/urls.py) and add the following
+4. Create a file in the application folder called urls.py (app_name/urls.py) and add the following
     ```
     from django.urls import path
     from . import views
@@ -110,6 +128,8 @@ py manage.py runserver
 ### Create the index page
 1. Open app_name/urls.py and add the following to `urlpatterns`
     ```
+    from .views import *
+
     urlpatterns = [
     path('', views.index, name='index'),
     ]
@@ -120,6 +140,7 @@ py manage.py runserver
         return render(request, 'index.html')
     ```
     [Writing views](https://docs.djangoproject.com/en/3.1/topics/http/views/) (Django Docs)
+
 3. Create templates folder in the application folder.  In that folder create the file base.html which will base template for all html files. Add the following to base.html
     ```
     <!DOCTYPE html>
