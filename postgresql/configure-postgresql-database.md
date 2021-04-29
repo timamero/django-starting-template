@@ -31,6 +31,11 @@ ALTER ROLE databaseuser SET timezone TO 'America/Los_Angeles';
 See [Optimizing PostgreSQL's configuration (Django Docs)](https://docs.djangoproject.com/en/3.0/ref/databases/#postgresql-notes)
 <br>
 <br>
+To create test database when running tests, need to give user permission to create database:
+```
+ALTER USER databaseuser CREATEDB;
+```
+<br>
 ### Give database user access rights to the database
 ```
 GRANT ALL PRIVILEGES ON DATABASE <database_name> TO <user_name>;
